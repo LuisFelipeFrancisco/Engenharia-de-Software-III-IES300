@@ -39,6 +39,22 @@ CREATE TABLE IF NOT EXISTS `tb_agendamento` (
 -- Copiando dados para a tabela db_cabelow.tb_agendamento: ~0 rows (aproximadamente)
 DELETE FROM `tb_agendamento`;
 
+-- Copiando estrutura para tabela db_cabelow.tb_contas_a_pagar
+DROP TABLE IF EXISTS `tb_contas_a_pagar`;
+CREATE TABLE IF NOT EXISTS `tb_contas_a_pagar` (
+  `id_contas_a_pagar` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `titulo` varchar(50) NOT NULL,
+  `descricao` varchar(255) DEFAULT NULL,
+  `data_vencimento` date NOT NULL,
+  `data_pagamento` date DEFAULT NULL,
+  `valor` float NOT NULL,
+  `comprovante` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id_contas_a_pagar`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela db_cabelow.tb_contas_a_pagar: ~0 rows (aproximadamente)
+DELETE FROM `tb_contas_a_pagar`;
+
 -- Copiando estrutura para tabela db_cabelow.tb_contas_a_receber
 DROP TABLE IF EXISTS `tb_contas_a_receber`;
 CREATE TABLE IF NOT EXISTS `tb_contas_a_receber` (
@@ -57,6 +73,24 @@ CREATE TABLE IF NOT EXISTS `tb_contas_a_receber` (
 
 -- Copiando dados para a tabela db_cabelow.tb_contas_a_receber: ~0 rows (aproximadamente)
 DELETE FROM `tb_contas_a_receber`;
+
+-- Copiando estrutura para tabela db_cabelow.tb_fornecedores
+DROP TABLE IF EXISTS `tb_fornecedores`;
+CREATE TABLE IF NOT EXISTS `tb_fornecedores` (
+  `id_fornecedor` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `cnpj` varchar(14) NOT NULL,
+  `logradouro` varchar(100) DEFAULT NULL,
+  `bairro` varchar(50) DEFAULT NULL,
+  `numero` varchar(10) DEFAULT NULL,
+  `cidade` varchar(100) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `telefone` varchar(11) NOT NULL,
+  `nome_representante` varchar(100) NOT NULL,
+  PRIMARY KEY (`id_fornecedor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela db_cabelow.tb_fornecedores: ~0 rows (aproximadamente)
+DELETE FROM `tb_fornecedores`;
 
 -- Copiando estrutura para tabela db_cabelow.tb_funcionarios
 DROP TABLE IF EXISTS `tb_funcionarios`;
@@ -92,7 +126,7 @@ CREATE TABLE IF NOT EXISTS `tb_pessoa` (
   PRIMARY KEY (`id_pessoa`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
--- Copiando dados para a tabela db_cabelow.tb_pessoa: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela db_cabelow.tb_pessoa: ~0 rows (aproximadamente)
 DELETE FROM `tb_pessoa`;
 INSERT INTO `tb_pessoa` (`id_pessoa`, `nome`, `email`, `celular`, `logradouro`, `numero`, `bairro`, `cpf_cnpj`, `nascimento`, `obs`) VALUES
 	(1, 'Luis Felipe', 'email@email.com.br', '14999999999', 'rua um', '2', 'bairo tres', '44444444444', '1994-01-31', 'observaçao');
@@ -109,11 +143,24 @@ CREATE TABLE IF NOT EXISTS `tb_produtos` (
   `estoque_minimo` int(11) NOT NULL,
   PRIMARY KEY (`id_produto`),
   KEY `fk_produtos_fornecedores` (`fk_fornecedor`),
-  CONSTRAINT `fk_produtos_fornecedores` FOREIGN KEY (`fk_fornecedor`) REFERENCES `td_fornecedores` (`id_fornecedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_produtos_fornecedores` FOREIGN KEY (`fk_fornecedor`) REFERENCES `tb_fornecedores` (`id_fornecedor`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Copiando dados para a tabela db_cabelow.tb_produtos: ~0 rows (aproximadamente)
 DELETE FROM `tb_produtos`;
+
+-- Copiando estrutura para tabela db_cabelow.tb_servicos
+DROP TABLE IF EXISTS `tb_servicos`;
+CREATE TABLE IF NOT EXISTS `tb_servicos` (
+  `id_servico` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `nome` varchar(50) NOT NULL,
+  `duracao` int(11) NOT NULL,
+  `valor` float NOT NULL DEFAULT 0,
+  PRIMARY KEY (`id_servico`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- Copiando dados para a tabela db_cabelow.tb_servicos: ~0 rows (aproximadamente)
+DELETE FROM `tb_servicos`;
 
 -- Copiando estrutura para tabela db_cabelow.tb_servicos_agendamentos
 DROP TABLE IF EXISTS `tb_servicos_agendamentos`;
@@ -125,7 +172,7 @@ CREATE TABLE IF NOT EXISTS `tb_servicos_agendamentos` (
   KEY `fk_servicos_agendados_agendamento` (`fk_agendamento`),
   KEY `fk_servios_agendados_servicos` (`fk_servico`),
   CONSTRAINT `fk_servicos_agendados_agendamento` FOREIGN KEY (`fk_agendamento`) REFERENCES `tb_agendamento` (`id_agendamento`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_servios_agendados_servicos` FOREIGN KEY (`fk_servico`) REFERENCES `td_servicos` (`id_servico`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  CONSTRAINT `fk_servios_agendados_servicos` FOREIGN KEY (`fk_servico`) REFERENCES `tb_servicos` (`id_servico`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- Copiando dados para a tabela db_cabelow.tb_servicos_agendamentos: ~0 rows (aproximadamente)
@@ -141,53 +188,6 @@ CREATE TABLE IF NOT EXISTS `tb_tipo_pagamento` (
 
 -- Copiando dados para a tabela db_cabelow.tb_tipo_pagamento: ~0 rows (aproximadamente)
 DELETE FROM `tb_tipo_pagamento`;
-
--- Copiando estrutura para tabela db_cabelow.td_contas_a_pagar
-DROP TABLE IF EXISTS `td_contas_a_pagar`;
-CREATE TABLE IF NOT EXISTS `td_contas_a_pagar` (
-  `id_contas_a_pagar` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `titulo` varchar(50) NOT NULL,
-  `descricao` varchar(255) DEFAULT NULL,
-  `data_vencimento` date NOT NULL,
-  `data_pagamento` date DEFAULT NULL,
-  `valor` float NOT NULL,
-  `comprovante` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id_contas_a_pagar`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Copiando dados para a tabela db_cabelow.td_contas_a_pagar: ~0 rows (aproximadamente)
-DELETE FROM `td_contas_a_pagar`;
-
--- Copiando estrutura para tabela db_cabelow.td_fornecedores
-DROP TABLE IF EXISTS `td_fornecedores`;
-CREATE TABLE IF NOT EXISTS `td_fornecedores` (
-  `id_fornecedor` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `cnpj` varchar(14) NOT NULL,
-  `logradouro` varchar(100) DEFAULT NULL,
-  `bairro` varchar(50) DEFAULT NULL,
-  `numero` varchar(10) DEFAULT NULL,
-  `cidade` varchar(100) DEFAULT NULL,
-  `email` varchar(100) DEFAULT NULL,
-  `telefone` varchar(11) NOT NULL,
-  `nome_representante` varchar(100) NOT NULL,
-  PRIMARY KEY (`id_fornecedor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Copiando dados para a tabela db_cabelow.td_fornecedores: ~0 rows (aproximadamente)
-DELETE FROM `td_fornecedores`;
-
--- Copiando estrutura para tabela db_cabelow.td_servicos
-DROP TABLE IF EXISTS `td_servicos`;
-CREATE TABLE IF NOT EXISTS `td_servicos` (
-  `id_servico` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) NOT NULL,
-  `duracao` int(11) NOT NULL,
-  `valor` float NOT NULL DEFAULT 0,
-  PRIMARY KEY (`id_servico`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
--- Copiando dados para a tabela db_cabelow.td_servicos: ~0 rows (aproximadamente)
-DELETE FROM `td_servicos`;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
