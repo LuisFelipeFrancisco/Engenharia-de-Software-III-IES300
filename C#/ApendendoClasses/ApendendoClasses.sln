@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApendendoClasses", "Apenden
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heranca", "Heranca\Heranca.csproj", "{1CD27352-D512-4978-AEE9-DE8B153E1A83}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DriagramaDeClasses", "DriagramaDeClasses\DriagramaDeClasses.csproj", "{DFAA7E5C-201F-4BD7-832E-7D9E760BABFC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1CD27352-D512-4978-AEE9-DE8B153E1A83}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1CD27352-D512-4978-AEE9-DE8B153E1A83}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1CD27352-D512-4978-AEE9-DE8B153E1A83}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DFAA7E5C-201F-4BD7-832E-7D9E760BABFC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DFAA7E5C-201F-4BD7-832E-7D9E760BABFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DFAA7E5C-201F-4BD7-832E-7D9E760BABFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DFAA7E5C-201F-4BD7-832E-7D9E760BABFC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
