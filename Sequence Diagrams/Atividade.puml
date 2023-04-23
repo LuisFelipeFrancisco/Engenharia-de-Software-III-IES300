@@ -1,0 +1,350 @@
+/' 
+1 – Agendar Consulta:
+1. O Paciente entra em contato com o atendente solicitando o
+agendamento.
+2. O atendente consulta as possíveis datas na agenda e apresenta ao
+Paciente.
+3. O Paciente escolhe a data que melhor lhe agrada e solicita o
+agendamento.
+4. O atendente realiza o agendamento na data escolhida e confirma
+para o Paciente. 
+'/
+@startuml 01 - Agendamento de Consulta
+
+title Agendamento de Consulta
+
+participant Paciente
+participant Atendente
+database Agenda
+
+autonumber
+Paciente -> Atendente: Solicita agendamento
+Atendente -> Agenda: Consulta datas
+Agenda --> Atendente: 
+Atendente --> Paciente: Apresenta datas
+Paciente -> Atendente: Escolhe data
+Atendente -> Agenda: Realiza agendamento
+Agenda --> Atendente: 
+Atendente --> Paciente: Confirma agendamento
+
+@enduml
+
+/' 
+2 – Totem Consulta Preço:
+1. O Cliente escaneia o código do produto no leitor do Totem.
+2. O Totem passa o código escaneado para o Sistema de Gestão do
+mercado.
+3. O Sistema valida o código e consulta os dados do produto no banco
+de dados.
+4. O Banco devolve os dados do produto para o sistema.
+5. O sistema envia para o Totem para ser exibido ao Cliente.
+'/
+
+@startuml 02 - Totem Consulta Preço
+
+title Totem Consulta Preço
+
+participant Cliente
+participant Totem
+database Sistema
+database Banco
+
+autonumber
+Cliente -> Totem: Escaneia código
+Totem -> Sistema: Passa código
+Sistema -> Banco: Valida código
+Banco --> Sistema: Retorna dados
+Sistema --> Totem: Envia dados
+Totem --> Cliente: Exibe dados
+
+@enduml
+
+/'
+3 – Criar Conta Netflix:
+1. O Usuário insere seu e-mail.
+2. O Sistema consulta no banco de dados se o e-mail já existe.
+a. Se o e-mail já existir exibe a mensagem para recuperar senha.
+b. Caso não exista dá sequência...
+3. O Sistema exibe solicita para o Usuário os dados para criação de conta.
+4. O Usuário insere os dados.
+5. O Sistema Valida os dados inseridos.
+a. Caso não passe na validação apresenta mensagem de erro.
+b. Caso esteja OK dá sequência.
+6. O sistema insere no Banco os dados do Usuário.
+7. O sistema apresenta a mensagem de concluído para o Usuário
+'/
+
+@startuml 03 - Criar Conta Netflix
+
+title Criar Conta Netflix
+
+participant Usuário
+database Sistema
+database Banco
+
+autonumber
+Usuário -> Sistema: Insere e-mail
+Sistema -> Banco: Consulta e-mail
+alt email ja existe
+    Banco --> Sistema: Retorna dados
+    Sistema --> Usuário: Exibe mensagem recuperar senha
+else email não existe
+    Banco --> Sistema: Retorna dados
+    Sistema --> Usuário: Exibe solicitação
+alt dados inválidos
+    Usuário -> Sistema: Insere dados
+    Sistema -> Banco: Valida dados
+    Banco --> Sistema: Retorna dados
+    Sistema --> Usuário: Exibe mensagem de erro
+else dados válidos
+    Usuário -> Sistema: Insere dados
+    Sistema -> Banco: Valida dados
+    Banco --> Sistema: Retorna dados
+    Sistema --> Usuário: Exibe mensagem de concluído
+end
+end
+
+@enduml
+
+/'
+4 – Comprar Pão (Cliente, Atendente, Estoque)
+1. O Cliente solicita o pão ao Atendente.
+2. O Atendente consulta o Estoque.
+3. O Estoque retorna se tem ou não o pão.
+4. O Atendente informa ao Cliente se tem ou não o pão.
+5. O Cliente decide se compra ou não.
+6. O Atendente realiza a venda.
+7. O Cliente paga o Atendente.
+'/
+
+@startuml 04 - Comprar Pão
+
+title Comprar Pão
+
+participant Cliente
+participant Atendente
+database Estoque
+
+autonumber
+Cliente -> Atendente: Solicita pão
+Atendente -> Estoque: Consulta estoque
+Estoque --> Atendente:
+Atendente --> Cliente: Informa se tem ou não
+Cliente -> Atendente: Decide se compra
+alt compra
+    Atendente -> Cliente: Realiza venda
+    Cliente -> Atendente: Paga
+else não compra
+    Atendente --> Cliente: 
+end
+
+@enduml
+
+/'
+5 – Postar Foto Instagram (Usuário, Sistema, Banco de dados)
+1. O Usuario escolhe a foto que deseja postar (Ja existente ou nova).
+2. O Sistema valida a foto.
+3. O Sistema envia a foto para o Banco de dados.
+4. O Banco de dados armazena a foto.
+5. O Sistema exibe a foto para o Usuario.
+'/
+
+@startuml 05 - Postar Foto Instagram
+
+title Postar Foto Instagram
+
+participant Usuário
+participant Sistema
+database Banco
+
+autonumber
+Usuário -> Sistema: Escolhe foto
+alt foto existente
+    Sistema -> Banco: Valida foto
+    Banco --> Sistema: Retorna foto
+    Sistema --> Usuário: Exibe foto
+else foto nova
+    Usuário -> Usuário: Tirar foto
+    Usuário -> Sistema: Enviar foto
+    Sistema -> Banco: Valida foto
+    Banco --> Sistema: Retorna foto
+    Sistema --> Usuário: Exibe foto
+end
+
+@enduml
+
+/'
+6 – Enviar Mensagem Whatsapp (Usuário, Sistema, Servidor, Banco de dados)
+1. O Usuario escolhe o contato.
+2. O Usuario digita a mensagem.
+3. O Usuario envia a mensagem.
+4. O Sistema valida a mensagem.
+5. O Sistema envia a mensagem para o Servidor.
+6. O Servidor envia a mensagem para o Banco de dados.
+7. O Banco de dados armazena a mensagem.
+8. O Servidor envia a mensagem para o Usuario.
+'/
+
+@startuml 06 - Enviar Mensagem Whatsapp
+
+title Enviar Mensagem Whatsapp
+
+participant Usuário
+participant Sistema
+participant Servidor
+database Banco
+
+autonumber
+Usuário -> Sistema: Escolhe contato
+Usuário -> Sistema: Digita mensagem
+Usuário -> Sistema: Envia mensagem
+Sistema -> Sistema: Valida mensagem
+Sistema -> Servidor: Envia mensagem
+Servidor -> Banco: Armazena mensagem
+Banco --> Servidor:
+Servidor --> Sistema: Retorna mensagem
+Sistema --> Usuário: Exibe mensagem
+
+@enduml
+
+/'
+7 – Realizar Transferência PIX (Usuário, Sistema, Banco de dados)
+1. O Usuario digita a chave do destinatário.
+2. O Sistema valida a chave do destinatário no Banco de dados.
+3. O Usuario digita o valor da transferência.
+4. O Sistema valida o valor da transferência.
+5. O Sistema valida o saldo do Usuario.
+6. O Sistema realiza a transferência.
+7. O Sistema envia a confirmação da transferência para o Usuario.
+'/
+
+@startuml 07 - Realizar Transferência PIX
+
+title Realizar Transferência PIX
+
+participant Usuário
+participant Sistema
+database Banco
+
+autonumber
+Usuário -> Sistema: Digita chave
+Sistema -> Banco: Valida chave
+alt chave inválida
+    Banco --> Sistema: Retorna mensagem de erro
+    Sistema --> Usuário: Exibe mensagem de erro
+else chave válida
+    Banco --> Sistema: Retorna dados
+    Sistema --> Usuário: Exibe dados
+    Usuário -> Sistema: Digita valor
+alt saldo inválido
+    Sistema -> Sistema: Valida saldo
+    Sistema --> Usuário: Exibe mensagem de erro
+else saldo válido
+    Sistema -> Banco: Realiza transferência
+    Banco --> Sistema: Retorna mensagem de confirmação
+    Sistema --> Usuário: Exibe mensagem de confirmação
+end
+end
+
+@enduml
+
+/'
+8 – Assistir Vídeo Youtube (Usuário, Sistema, Banco de dados)
+1. O Usuario escolhe o vídeo.
+2. O Sistema faz a busca do vídeo no Banco de dados.
+3. O Sistema exibe o vídeo para o Usuario.
+4. O Usuario assiste o vídeo.
+5. O Sistema armazena o vídeo que o Usuario assistiu.
+'/
+
+@startuml 08 - Assistir Vídeo Youtube
+
+title Assistir Vídeo Youtube
+
+participant Usuário
+participant Sistema
+database Banco
+
+autonumber
+Usuário -> Sistema: Escolhe vídeo
+Sistema -> Banco: Busca vídeo
+Banco --> Sistema: Retorna vídeo
+Sistema --> Usuário: Exibe vídeo
+Usuário -> Usuário: Assiste vídeo
+Usuário -> Sistema: Envia vídeo assistido
+Sistema -> Banco: Armazena vídeo assistido
+
+@enduml
+
+/'
+9 – Curtir Foto Instagram (Usuário, Sistema, Banco de dados – Se já tiver curtido descurtir)
+1. O Usuario escolhe a foto que deseja curtir.
+2. O Usuario curte a foto.
+alt já curtiu
+    O Sistema descurte a foto.
+    O Banco de dados armazena a descurtida.
+else não curtiu
+    O Sistema curte a foto.
+    O Banco de dados armazena a curtida.
+end
+3. O Sistema exibe a curtida para o Usuario.
+'/
+
+@startuml 09 - Curtir Foto Instagram
+
+title Curtir Foto Instagram
+
+participant Usuário
+participant Sistema
+database Banco
+
+autonumber
+Usuário -> Sistema: Escolhe foto
+Usuário -> Sistema: Curtir foto
+alt já curtiu
+    Sistema -> Sistema: Descurtir foto
+    Sistema -> Banco: Armazena descurtida
+    Banco --> Sistema:
+    Sistema --> Usuário: Exibe descurtida
+else não curtiu
+    Sistema -> Sistema: Curtir foto
+    Sistema -> Banco: Armazena curtida
+    Banco --> Sistema:
+    Sistema --> Usuário: Exibe curtida
+end
+
+@enduml
+
+/'
+10 – Entrar na Reunião do Teams (Usuário, Sistema, Servidor, Banco de dados)
+1. O Usuario escolhe a reunião.
+2. O Sistema faz a busca da reunião no Banco de dados.
+3. O Sistema exibe a reunião para o Usuario.
+4. O Usuario entra na reunião.
+5. O Sistema envia a confirmação da entrada na reunião para o Servidor.
+6. O Servidor envia a confirmação da entrada na reunião para o Banco de dados.
+7. O Banco de dados armazena a entrada na reunião.
+8. O Servidor envia a confirmação da entrada na reunião para o Usuario.
+'/
+
+@startuml 10 - Entrar na Reunião do Teams
+
+participant Usuário
+participant Sistema
+participant Servidor
+database Banco
+
+autonumber
+Usuário -> Sistema: Escolhe reunião
+Sistema -> Banco: Busca reunião
+Banco --> Sistema: Retorna reunião
+Sistema --> Usuário: Exibe reunião
+Usuário -> Usuário: Entra na reunião
+Usuário -> Sistema: Envia confirmação
+Sistema -> Servidor: Envia confirmação
+Servidor -> Banco: Armazena confirmação
+Banco --> Servidor:
+Servidor --> Sistema: Retorna confirmação
+Sistema --> Usuário: Exibe confirmação
+
+@enduml
