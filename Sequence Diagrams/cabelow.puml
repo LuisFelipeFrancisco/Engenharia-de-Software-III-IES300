@@ -1,0 +1,75 @@
+/'
+Atendente - Logar
+1. Insere dados de login
+2. Sistema valida dados (alt mensagem de erro, continua)
+3. Consulta dados no BD
+4. Retorna dados encontrados ou não
+5. Exibe tela inicial
+'/
+
+@startuml 01 - Logar
+title Logar no sistema
+
+participant Atendente
+participant Sistema
+database BD
+
+Atendente -> Sistema: Insere dados
+alt Dados Invalidos
+    Sistema -> Atendente: Exibe mensagem de erro
+    Atendente -> Sistema: Insere dados
+else Dados Validos
+    Sistema -> Sistema: Valida dados
+    Sistema -> BD: Consulta dados
+    alt Dados encontrados
+        BD -> Sistema: Retorna dados
+        Sistema -> Atendente: Redireciona para tela inicial
+    else Dados não encontrados
+        BD -> Sistema: Retorna dados não encontrados
+        Sistema -> Atendente: Exibe mensagem de erro
+    end
+end
+
+@enduml
+
+
+/'
+Atendente - Agendar - Cliente
+1. Seleciona cliente
+2. Seleciona serviço(s) (Verificar disponibilidade)
+3. Escolhe data e horário (Verificar disponibilidade)
+4. Confirma agendamento
+'/
+
+@startuml 02 - Agendar - Cliente
+title Agendar - Cliente
+
+participant Atendente
+participant Sistema
+database BD
+
+autonumber
+Atendente -> Sistema: Acessa tela de agendamento
+Sistema -> BD: Seleciona cliente, serviço(s).
+BD --> Sistema: Retorna dados
+Sistema --> Atendente: Exibe tela de agendamento
+Atendente -> Sistema: Seleciona cliente, serviço(s).
+Sistema -> BD: Consulta tempo de serviço(s)
+BD --> Sistema: Retorna dados
+Sistema --> Atendente: Exibe tempo de serviço(s) estimado
+Atendente -> Sistema: Seleciona data e horário
+Sistema -> BD: Consulta disponibilidade
+BD --> Sistema: Retorna dados
+alt Se conflito
+    Sistema --> Atendente: Exibe mensagem de conflito
+else Não tem conflito
+    Sistema -> BD: Salva dados
+    BD --> Sistema: Retorna dados
+    Sistema --> Atendente: Exibe mensagem de sucesso
+end
+
+@enduml
+
+/'
+Cadastrar - Cliente
+'/
