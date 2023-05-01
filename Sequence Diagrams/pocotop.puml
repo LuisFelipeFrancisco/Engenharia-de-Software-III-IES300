@@ -1,0 +1,25 @@
+/'
+Cadastro de Clientes
+1. Funcionario insere os dados do cliente
+2. Sistema valida os dados inseridos
+2.a. Se os dados estiverem corretos, o sistema salva os dados e exibe uma mensagem de sucesso
+2.b. Se os dados estiverem incorretos, o sistema exibe uma mensagem de erro
+'/
+
+@startuml Cadastro de Clientes
+
+title Cadastro de Clientes
+participant Funcionario
+participant Sistema
+database BD
+
+Funcionario -> Sistema: Insere os dados do cliente
+Sistema -> Sistema: Valida os dados inseridos
+alt Dados Invalidos
+    Sistema -> Funcionario: Exibe mensagem de erro
+else Dados Validos
+    Sistema -> BD: Salva os dados
+    Sistema -> Funcionario: Exibe mensagem de sucesso
+end
+
+@enduml
