@@ -1,0 +1,33 @@
+/' Diagramas de Atividades '/
+
+/' 
+1 – Criar Conta Instagram:
+1. Usuário Digita Dados
+fork
+a. Validar Username - volta para digitar novamente caso invalido
+b. Validar dados - volta para digitar novamente caso invalido
+fim fork
+2. Retorna Mensagem ou passa
+3. Salva Informações no banco
+4. Redireciona Tela Login
+'/
+
+@startuml CriarContaInstagram
+
+title Criar Conta Instagram
+
+start
+
+repeat : Usuario digita dados;
+fork
+:Validar Username;
+fork again
+:Validar dados;
+end fork
+repeat while (Dados Invalidos) is (sim)
+-> Não;
+:Salva Informações no banco;
+:Redireciona Tela Login;
+stop
+
+@enduml
