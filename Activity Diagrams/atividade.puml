@@ -12,7 +12,7 @@ fim fork
 4. Redireciona Tela Login
 '/
 
-@startuml CriarContaInstagram
+@startuml 01 - CriarContaInstagram
 
 title Criar Conta Instagram
 
@@ -28,6 +28,265 @@ repeat while (Dados Invalidos) is (sim)
 -> Não;
 :Salva Informações no banco;
 :Redireciona Tela Login;
+stop
+
+@enduml
+
+/' 
+2 – Btn Curtir Post Instagram: 
+1. Verifica se já tinha curtido 
+    a. Se SIM des-curtir 
+    b. Se NÃO curtir 
+2. Salvar no Banco 
+'/
+
+@startuml 02 - BtnCurtirPostInstagram
+
+title Btn Curtir Post Instagram
+
+start
+
+:Verifica se já tinha curtido;
+if (Curtido ?) then (sim)
+    :Des-curtir;
+else (não)
+    :Curtir;
+endif
+:Salva no Banco;
+stop
+
+@enduml
+
+/'
+3 – Logar no Windows:
+1. Usuário digita senha
+2. Valida senha
+    a. Se SIM:
+        i. Carrega sistema
+        ii. Carrega Aplicativos
+    b. Se NÃO
+        i. Retorna mensagem de erro
+3. Apresenta Desktop
+'/
+
+@startuml 03 - LogarNoWindows
+
+title Logar no Windows
+
+start
+
+:Usuário digita senha;
+:Valida senha;
+if (Senha Correta ?) then (sim)
+    :Carrega sistema;
+    :Carrega Aplicativos;
+    :Apresenta Desktop;
+else (não)
+    :Retorna mensagem de erro;
+    end
+endif
+
+stop
+
+@enduml
+
+/'
+4 – Fazer ligação de celular:
+1. Verifica Sinal
+    a. SIM: Conecta na torre
+    b. NÃO: Encerra ligação
+2. Consulta número digitado
+    a. SIM: Verifica se está ligado
+        i. SIM: Conecta números
+        ii. NÃO: Caixa postal
+    b. NÃO: mensagem número incorreto
+'/
+
+@startuml 04 - FazerLigaçãoDeCelular
+
+title Fazer ligação de celular
+
+start
+
+:Verifica Sinal;
+if (Sinal ?) then (sim)
+    :Conecta na torre;
+else (não)
+    :Encerra ligação;
+    end
+endif
+:Consulta número digitado;
+
+if (Número correto ?) then (sim)
+    :Verifica se está ligado;
+    if (Ligado ?) then (sim)
+        :Conecta números;
+    else (não)
+        :Caixa postal;
+    endif
+else (não)
+    :Mensagem: número incorreto;
+    end
+endif
+
+stop
+
+@enduml
+
+/'
+5 – Fazer Matrícula na Fatec:
+1. Seleciona Curso
+2. Verifica se tem vaga
+    a. SIM: Matricula
+    b. NÃO: Lista de espera
+3. Faz upload de documentos
+4. Sistema valida documentos
+    a. Validos: Matricula
+    b. Invalidos: Retorna mensagem
+'/
+
+@startuml 05 - FazerMatriculaNaFatec
+
+title Fazer Matrícula na Fatec
+
+start
+
+:Seleciona Curso;
+:Verifica se tem vaga;
+if (Vaga ?) then (sim)
+    :Matricula;
+    :Faz upload de documentos;
+    if (Documentos validos ?) then (sim)
+        :Matricula realizada;
+    else (não)
+        :Retorna mensagem: Documentos invalidos;
+        end
+    endif
+else (não)
+    :Lista de espera;
+    end
+endif
+
+stop
+
+@enduml
+
+/'
+6 – Pagar Boleto via Internet Banking
+'/
+
+@startuml 06 - PagarBoletoViaInternetBanking
+
+title Pagar Boleto via Internet Banking
+
+start
+
+:Seleciona opção pagar boleto;
+repeat :Escolhe como inserir boleto;
+fork
+    :Digita código de barras;
+fork again
+    :Faz leitura do código de barras;
+end fork
+repeat while (Código de barras válido ?) is (não)
+-> Sim;
+:Confirma saldo em conta;
+if (Saldo disponivel ?) then (sim)
+    :Confirma pagamento;
+else (não)
+    :Retorna mensagem: Saldo insuficiente;
+    end
+endif
+
+stop
+
+@enduml
+
+/'
+7 – Tirar Extrato Caixa Eletrônico
+1. Insere cartão
+2. Digita senha
+    a. Senha correta: Acessa conta
+    b. Senha incorreta: Retorna mensagem, digitar novamente
+3. Seleciona opção extrato bancário
+4. Imprime extrato
+'/
+
+@startuml 07 - TirarExtratoCaixaEletronico
+
+title Tirar Extrato Caixa Eletrônico
+
+start
+
+:Insere cartão;
+repeat :Digita senha;
+repeat while (Senha correta ?) is (não)
+-> Sim;
+:Acessa conta;
+:Seleciona opção extrato bancário;
+:Imprime extrato;
+stop
+
+@enduml
+
+/'
+8 – Comprar no Mercado Livre
+1. Seleciona produto
+2. Seleciona quantidade
+    a. Quantidade disponivel: Adiciona ao carrinho
+    b. Quantidade indisponivel: Retorna mensagem, quantidade indisponivel
+3. Seleciona endereço de entrega
+    a. Endereço cadastrado: Confirma endereço
+    b. Endereço não cadastrado: Cadastra endereço
+4. Seleciona forma de pagamento
+    a. Cartão de crédito: Digita dados do cartão
+        i. Dados corretos: Confirma pagamento
+            x. Pagamento aprovado: Confirma compra
+            y. Pagamento não aprovado: Retorna mensagem, pagamento não aprovado
+        ii. Dados incorretos: Retorna mensagem, dados incorretos
+    b. Boleto: Gera boleto
+5. Confirma compra
+'/
+
+@startuml 08 - ComprarNoMercadoLivre
+
+title Comprar no Mercado Livre
+
+start
+
+:Seleciona produto;
+:Seleciona quantidade;
+if (Quantidade disponivel ?) then (sim)
+    :Adiciona ao carrinho;
+else (não)
+    :Retorna mensagem: Quantidade indisponivel;
+    end
+endif
+:Seleciona endereço de entrega;
+if (Endereço cadastrado ?) then (sim)
+    :Confirma endereço;
+else (não)
+    :Cadastra endereço;
+endif
+:Seleciona forma de pagamento;
+if (Cartão de crédito ?) then (sim)
+    :Digita dados do cartão;
+    if (Dados corretos ?) then (sim)
+        :Confirma pagamento;
+        if (Pagamento aprovado ?) then (sim)
+            :Confirma compra;
+        else (não)
+            :Retorna mensagem: Pagamento não aprovado;
+            end
+        endif
+    else (não)
+        :Retorna mensagem: Dados incorretos;
+        end
+    endif
+else (não)
+    :Gera boleto;
+endif
+
 stop
 
 @enduml
