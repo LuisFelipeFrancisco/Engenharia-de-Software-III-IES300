@@ -1,0 +1,109 @@
+@startuml AgendamentoVeterinario
+
+title Agendamento Veterinario
+
+start
+
+fork
+    :Seleciona o animal;
+fork again
+    :Seleciona o veterinario;
+end fork
+repeat :Seleciona a data e horario;
+repeat while (Data e horario disponivel ?) is (não)
+-> Sim;
+:Confirma agendamento;
+stop
+
+@enduml
+
+@startuml CadastroDeCliente
+
+title Cadastro de Cliente
+
+start
+
+: Usuário insere dados;
+: Sistema consulta cadastro;
+switch (Conta existe ?)
+ case (Existe)
+  : Mensagem "cadastro já existe";
+ end
+ case (Não existe)
+  repeat
+   : Sistema solicita preenchimento dos dados de cadastro;
+   : Usuário preenche os dados;
+   : Sistema valida dados preenchidos;
+  repeat while (Dados corretos ?) is (Mensagem de erro)
+  : Salva os dados no BD;
+  : Mensagem "cadastro efetuado com sucesso";
+endswitch
+
+end
+
+@enduml
+
+@startuml CadastroDeAnimal
+
+title Cadastro de Animal
+
+start
+
+ repeat :Usuário preenche SBB (Registro do equino);
+  :Sistema valida SBB;
+  backward: Sistema exibe erro SBB ja existe no banco;
+ repeat while (SBB ja existe no banco ?) is (Existe)
+ -> Não existe;
+ :Sistema libera preenchimento dos demais campos;
+  repeat :Usuário preenche campos e clica no botão salvar;
+  repeat while (Campos preenchidos corretamente ?) is (Incorretos)
+  -> Corretos;
+  :Sistema salva informações no BD;
+  :Sistema retorna mensagem de sucesso;
+
+end
+
+@enduml
+
+@startuml CadastroDeServico
+
+title Cadastro de Serviço
+
+start
+
+ repeat :Usuário preenche serviço que deseja realizar;
+  :Sistema valida o serviço;
+  backward: Sistema exibe o erro informando que o serviço ja está cadastrado;
+ repeat while (Este serviço já existe no banco ?) is (Cadastro existe)
+ -> Não existe;
+ :Sistema libera preenchimento dos demais campos;
+  repeat :Usuário preenche campos e clica no botão salvar;
+  repeat while (Campos preenchidos corretamente ?) is (Campos incorretos)
+  -> Corretos;
+  :Sistema salva informações no Banco de Dados;
+  :Sistema retorna mensagem de sucesso;
+
+end
+
+@enduml
+
+@startuml RelatorioDeClientes
+
+title Relatório de Clientes
+
+start
+
+: Usuário seleciona filtros para o relatório;
+: Sistema realiza consulta no banco;
+: Banco verifica se existem retornos da consulta;
+if(Existe retorno ?) is (sim) then
+: Sistema monta retornos da consulta;
+: Sistema exibe dados para usuário;
+stop
+else
+-> não;
+: Sistema exibe dados não encontrados;
+
+stop
+
+@enduml
